@@ -1,7 +1,7 @@
 # Homework 3
 ### Description: object-oriented pure functional design and implementation of an external command execution framework as an I/O monad.
 ### Grade: 11%
-#### You can obtain this Git repo using the command ```git clone git@bitbucket.org:cs474_fall2019/homework3.git'''.
+#### You can obtain this Git repo using the command `git clone git@bitbucket.org:cs474_fall2019/homework3.git`.
 #### Preliminaries are the same as in the previous homeworks, except doing this homework in Scala is mandatory.
 
 ## Overview and Functionality
