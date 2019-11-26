@@ -28,7 +28,7 @@ object Grep {
       Command[String](s"grep $pattern ${options.mkString(" ")} ${files.map("'" + _ + "'").mkString(" ")}".strip())
 
     def buildForPipe(implicit ev: I =:= WithPipeParameters): Command[PipeReceiver] =
-      Command[PipeReceiver](s"grep $pattern ${options.mkString(" ")}".strip())
+      Command[PipeReceiver](s"grep '$pattern' ${options.mkString(" ")}".strip())
   }
 
   sealed trait GrepParameters
