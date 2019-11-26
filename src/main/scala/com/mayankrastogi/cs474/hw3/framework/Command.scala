@@ -15,11 +15,11 @@ case class Command[T](cmd: String,
 
   def andThen[U](that: Command[U]): Command[U] = that.copy(fragments = this.fragments ++ Seq(this))(that.parser)
 
-  def pipeTo(that: Command[_ <: PipeReceiver]): Command[T] = this.copy(cmd = this.cmd + " | " + that.cmd, redirectsOutput = true)
+  def pipeTo(that: Command[_ <: PipeReceiver]): Command[T] = this.copy(cmd = this.cmd + " | " + that.cmd)
 
-  def writeTo(filePath: String): Command[Unit] = this.copy(cmd = s"$cmd > '$filePath'")
+  def writeTo(filePath: String): Command[Unit] = this.copy(cmd = s"$cmd > '$filePath'", redirectsOutput = true)
 
-  def appendTo(filePath: String): Command[Unit] = this.copy(cmd = s"$cmd >> '$filePath'")
+  def appendTo(filePath: String): Command[Unit] = this.copy(cmd = s"$cmd >> '$filePath'", redirectsOutput = true)
 
   def execute: Either[Throwable, T] = {
     val shellPrefix = if (Command.isWindows) "wsl " else ""
