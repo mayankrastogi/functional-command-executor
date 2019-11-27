@@ -8,7 +8,7 @@ object MkDir {
 
   def apply(): MkDirBuilder[Empty] = MkDirBuilder(".", createParents = false)
 
-  case class MkDirBuilder[I <: MkDirParameters](private val dirName: String, private val createParents: Boolean) {
+  private[MkDir] case class MkDirBuilder[I <: MkDirParameters](private val dirName: String, private val createParents: Boolean) {
 
     def name(dirName: String): MkDirBuilder[I with FilePath] = copy(dirName = dirName)
 

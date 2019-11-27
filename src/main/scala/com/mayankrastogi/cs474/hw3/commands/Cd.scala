@@ -8,7 +8,7 @@ object Cd {
 
   def apply(): CdBuilder[Empty] = CdBuilder(".")
 
-  case class CdBuilder[I <: CdParameters](private val path: String) {
+  private[Cd] case class CdBuilder[I <: CdParameters](private val path: String) {
 
     def home: CdBuilder[I with Path] = CdBuilder("")
 

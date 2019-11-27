@@ -9,7 +9,7 @@ object Grep {
 
   def apply(): GrepBuilder[Empty] = GrepBuilder("", Seq.empty, Seq.empty)
 
-  case class GrepBuilder[I <: GrepParameters](private val pattern: String, private val files: Seq[String], private val options: Seq[String]) {
+  private[Grep] case class GrepBuilder[I <: GrepParameters](private val pattern: String, private val files: Seq[String], private val options: Seq[String]) {
 
     def pattern(pattern: String): GrepBuilder[I with Pattern] = copy(pattern = pattern)
 

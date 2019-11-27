@@ -9,7 +9,7 @@ object Cat {
   def apply(): CatBuilder[Empty] = CatBuilder(Seq.empty, Seq.empty)
 
 
-  case class CatBuilder[I <: CatParameters](private val files: Seq[String], private val options: Seq[String]) {
+  private[Cat] case class CatBuilder[I <: CatParameters](private val files: Seq[String], private val options: Seq[String]) {
 
     def addFile(path: String): CatBuilder[I with FilePath] = addAllFiles(Seq(path))
 

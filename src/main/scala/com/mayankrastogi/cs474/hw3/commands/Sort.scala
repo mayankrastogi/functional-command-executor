@@ -6,9 +6,10 @@ import com.mayankrastogi.cs474.hw3.framework.Command.PipeReceiver
 import com.mayankrastogi.cs474.hw3.framework.CommandResultParser.DefaultParsers._
 
 object Sort {
+
   def apply(): SortBuilder[Empty] = SortBuilder(Seq.empty, Seq.empty)
 
-  case class SortBuilder[I <: SortParameters](private val files: Seq[String], private val options: Seq[String]) {
+  private[Sort] case class SortBuilder[I <: SortParameters](private val files: Seq[String], private val options: Seq[String]) {
 
     def addFile(path: String): SortBuilder[I with FilePath] = addAllFiles(Seq(path))
 

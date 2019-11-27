@@ -8,7 +8,7 @@ object Echo {
 
   def apply(): EchoBuilder[Empty] = EchoBuilder("", trailingNewline = true, backslashInterpretation = false)
 
-  case class EchoBuilder[I <: EchoParameters](private val string: String, private val trailingNewline: Boolean, private val backslashInterpretation: Boolean) {
+  private[Echo] case class EchoBuilder[I <: EchoParameters](private val string: String, private val trailingNewline: Boolean, private val backslashInterpretation: Boolean) {
 
     def text(string: String): EchoBuilder[I with EchoString] = copy(string = string)
 

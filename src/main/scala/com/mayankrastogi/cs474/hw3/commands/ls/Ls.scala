@@ -10,7 +10,7 @@ object Ls {
 
   type LsResult = List[LsResultItem]
 
-  case class LsBuilder[I <: LsParameters](private val path: String, private val contentAttributes: ContentAttributes, private val contentTypes: ContentTypes) {
+  private[Ls] case class LsBuilder[I <: LsParameters](private val path: String, private val contentAttributes: ContentAttributes, private val contentTypes: ContentTypes) {
     def homeDirectory: LsBuilder[I with Path] = directory("~")
 
     def currentDirectory: LsBuilder[I with Path] = directory(".")
