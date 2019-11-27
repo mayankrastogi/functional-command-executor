@@ -8,6 +8,8 @@ object Ls {
 
   def apply(): LsBuilder[Empty] = LsBuilder(".", ContentAttributes.AllMinusHidden, ContentTypes.All)
 
+  type LsResult = List[LsResultItem]
+
   case class LsBuilder[I <: LsParameters](private val path: String, private val contentAttributes: ContentAttributes, private val contentTypes: ContentTypes) {
     def homeDirectory: LsBuilder[I with Path] = directory("~")
 
@@ -37,7 +39,7 @@ object Ls {
 
     def showFilesOnly: LsBuilder[I with DirectoryContents] = copy(contentTypes = ContentTypes.Files)
 
-    def build(implicit ev: I <:< MandatoryParameters): Command[List[LsResultItem]] = {
+    def build(implicit ev: I <:< MandatoryParameters): Command[LsResult] = {
       val cmd =
         Seq("ls", "-ldN", "--time-style=long-iso") ++
           Seq(contentAttributes match {

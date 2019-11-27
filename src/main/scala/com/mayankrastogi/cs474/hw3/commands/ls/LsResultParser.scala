@@ -2,11 +2,12 @@ package com.mayankrastogi.cs474.hw3.commands.ls
 
 import java.text.SimpleDateFormat
 
+import com.mayankrastogi.cs474.hw3.commands.ls.Ls.LsResult
 import com.mayankrastogi.cs474.hw3.framework.CommandResultParser
 
 import scala.util.matching.Regex
 
-object LsResultParser extends CommandResultParser[List[LsResultItem]] {
+object LsResultParser extends CommandResultParser[LsResult] {
 
   private val GroupNameFileType = "fileType"
   private val GroupNamePermissions = "permissions"
@@ -30,7 +31,7 @@ object LsResultParser extends CommandResultParser[List[LsResultItem]] {
 
   private val dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm")
 
-  override def parseFrom(output: String): List[LsResultItem] = {
+  override def parseFrom(output: String): LsResult = {
     output
       .linesIterator
       .flatMap(line => {
