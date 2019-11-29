@@ -13,7 +13,7 @@ object Permissions {
     val othersSlice = string.slice(6, 9)
 
     def extractor(permissionSlice: String): Set[PermissionFlag] =
-      userSlice.foldLeft(Set.empty[PermissionFlag]) { (flags, current) =>
+      permissionSlice.foldLeft(Set.empty[PermissionFlag]) { (flags, current) =>
         val currentFlag: Set[PermissionFlag] = current match {
           case 'r' => Set(Read)
           case 'w' => Set(Write)

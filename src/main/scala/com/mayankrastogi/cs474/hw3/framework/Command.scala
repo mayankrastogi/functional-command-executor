@@ -13,7 +13,8 @@ case class Command[T](cmd: String,
                      (implicit val parser: CommandResultParser[T])
   extends LazyLogging {
 
-  def andThen[U](that: Command[U]): Command[U] = that.copy(fragments = this.fragments ++ Seq(this))(that.parser)
+  def andThen[U](that: Command[U]): Command[U] =
+    that.copy(fragments = this.fragments ++ Seq(this) ++ that.fragments)(that.parser)
 
   def pipeTo(that: Command[_ <: PipeReceiver]): Command[T] = this.copy(cmd = this.cmd + " | " + that.cmd)
 
@@ -22,19 +23,21 @@ case class Command[T](cmd: String,
   def appendTo(filePath: String): Command[Unit] = this.copy(cmd = s"$cmd >> '$filePath'", redirectsOutput = true)
 
   def execute: Either[Throwable, T] = {
+    val command = this.toString
+    logger.debug(s"Executing command: $command")
+
+    Try(parser.parseFrom(command.!!)).toEither
+  }
+
+  override def toString: String = {
     val shellPrefix = if (Command.isWindows) "wsl " else ""
     val previousCommands =
       if (fragments.nonEmpty)
         fragments.map(c => if (c.redirectsOutput) c.cmd else c.cmd + " > /dev/null").mkString(" && ") + " && "
       else ""
 
-    val command = shellPrefix + "bash -c \"" + previousCommands + this.cmd + "\""
-    logger.debug(s"Executing command: $command")
-
-    Try(parser.parseFrom(command.!!)).toEither
+    shellPrefix + "bash -c \"" + previousCommands + this.cmd + "\""
   }
-
-  override def toString: String = (fragments.map(_.toString) ++ Seq(cmd)).mkString(" && ")
 }
 
 object Command {

@@ -22,7 +22,7 @@ object Cat {
 
     def showEnds: CatBuilder[I with Options] = copy(options = options ++ Seq("-E"))
 
-    def showNonPrinting: CatBuilder[I with Options] = copy(options = options ++ Seq("-v"))
+    def showAllExceptEndsAndTab: CatBuilder[I with Options] = copy(options = options ++ Seq("-v"))
 
     def showTabs: CatBuilder[I with Options] = copy(options = options ++ Seq("-T"))
 

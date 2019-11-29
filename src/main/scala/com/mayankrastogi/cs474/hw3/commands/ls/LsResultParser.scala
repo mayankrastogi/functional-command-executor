@@ -46,7 +46,7 @@ object LsResultParser extends CommandResultParser[LsResult] {
               regexMatch.group(GroupNameSize).toLong,
               dateFormatter.parse(regexMatch.group(GroupNameModifiedDate)),
               getFileName(regexMatch.group(GroupNameFileName)),
-              regexMatch.group(GroupNameFileName)
+              regexMatch.group(GroupNameFileName).stripPrefix("'").stripSuffix("'")
             )
           )
         }
@@ -57,6 +57,6 @@ object LsResultParser extends CommandResultParser[LsResult] {
   }
 
   private def getFileName(filePath: String): String = {
-    filePath.stripSuffix("/").split("/").last
+    filePath.stripPrefix("'").stripSuffix("'").stripSuffix("/").split("/").last
   }
 }

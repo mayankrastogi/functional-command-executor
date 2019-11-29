@@ -9,9 +9,12 @@ trait CommandResultParser[+T] {
 object CommandResultParser {
 
   object DefaultParsers {
+
+    object DummyPipeReceiver extends PipeReceiver
+
     implicit val unitParser: CommandResultParser[Unit] = _ => ()
     implicit val stringParser: CommandResultParser[String] = output => output
-    implicit val pipeReceiverParser: CommandResultParser[PipeReceiver] = _ => new PipeReceiver {}
+    implicit val pipeReceiverParser: CommandResultParser[PipeReceiver] = _ => DummyPipeReceiver
   }
 
 }
