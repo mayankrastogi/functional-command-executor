@@ -20,11 +20,11 @@ object Ls {
         if (path.startsWith("/"))
           path
         else if (path.startsWith("~"))
-          "\"$HOME\"/" + path.stripPrefix("~")
+          "'$HOME'/" + path.stripPrefix("~")
         else if (path.startsWith(".") && !path.startsWith(".."))
-          "\"$PWD\"/" + path.stripPrefix(".")
+          "'$PWD'/" + path.stripPrefix(".")
         else
-          "\"$PWD\"/" + path
+          "'$PWD'/" + path
 
       copy(path = s"'${absolutePath.stripSuffix("/")}'")
     }
