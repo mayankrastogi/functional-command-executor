@@ -39,7 +39,7 @@ object LsResultParser extends CommandResultParser[LsResult] {
         if (regexMatch.hasNext) {
           Iterator(
             LsResultItem(
-              FileType.parseFrom(regexMatch.group(GroupNameFileType)),
+              FileType.parseFrom(regexMatch.group(GroupNameFileType).charAt(0)),
               Permissions.parseFrom(regexMatch.group(GroupNamePermissions)),
               regexMatch.group(GroupNameOwnerName),
               regexMatch.group(GroupNameOwnerGroup),
