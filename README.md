@@ -304,6 +304,7 @@ Do(Command[String]("ps -aux"))
     ```
     sbt clean compile
     ```
+   
 4. Run the test cases
 
     ```
