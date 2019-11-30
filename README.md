@@ -29,6 +29,41 @@ Do(Cd().path("an/interesting/directory").build)
 
 ```
 
+Here is how you can find all text files in a directory and concatenate them in the order they were last modified, only if you have read permissions for them:
+
+```scala
+
+import com.mayankrastogi.cs474.hw3.commands.{Cat, Grep}
+import com.mayankrastogi.cs474.hw3.commands.ls.{Ls, PermissionFlag}
+import com.mayankrastogi.cs474.hw3.framework.Command
+import com.mayankrastogi.cs474.hw3.framework.CommandResultParser.DefaultParsers._
+
+Command[String]("whoami")
+  .execute
+  .map(_.strip)
+  .flatMap(username =>
+    Ls().directory("dir-with-text-files").showFilesOnly.build
+      .pipeTo(Grep().pattern("\\.txt$").buildForPipe)
+      .execute
+      .map(_.filter(_.ownerName == username))
+  )
+  .map(
+    _.filter(_.permissions.user.contains(PermissionFlag.Read))
+      .sortBy(_.lastModified)
+      .map(_.path)
+  )
+  .flatMap(filePaths =>
+    Cat().addAllFiles(filePaths).build
+      .writeTo("dir-with-text-files/allText.txt")
+      .execute
+  )
+  .fold(
+    e => println("Operation failed!", e),
+    _ => println("Operation successful.")
+  )
+
+``` 
+
 ### Features
 
 - **Functional**, type-safe interface for running Linux commands through Scala programs
@@ -71,7 +106,7 @@ This command returns the same text that was provided to it. Useful for writing t
 
 See [Echo.scala](src/main/scala/com/mayankrastogi/cs474/hw3/commands/Echo.scala) for supported options.
 
-**Example 1: Writing a file using `Echo` command**
+**Example 1:** *Writing a file using `Echo` command*
 
 ```scala
 
@@ -87,10 +122,10 @@ Echo()
   .build
   .writeTo("de Finibus Bonorum et Malorum.txt")
   .execute
-match {
-    case Right(_) => println("File written successfully")
-    case Left(e) => logger.error("Command failed!", e)
-  }
+  .fold(
+    e => logger.error("Command failed!", e),
+    _ => logger.info("File written successfully")
+  )
 
 ```
 
@@ -100,7 +135,7 @@ This command can be used to create directories at a specified path.
 
 See [MkDir.scala](src/main/scala/com/mayankrastogi/cs474/hw3/commands/MkDir.scala) for more details.
 
-**Example 2: Creating a directory using `MkDir()` command**
+**Example 2:** *Creating a directory using `MkDir()` command*
 
 ```scala
 
@@ -120,7 +155,7 @@ This command can be used to change the working directory of the subsequent comma
 
 See [Cd.scala](src/main/scala/com/mayankrastogi/cs474/hw3/commands/Cd.scala) for more details and supported options.
 
-**Example 3: Switch to home directory**
+**Example 3:** *Switch to home directory*
 
 ```scala
 
@@ -139,7 +174,7 @@ This command can be used to list files and directories at the supplied path. The
 
 See [Ls.scala](src/main/scala/com/mayankrastogi/cs474/hw3/commands/ls/Ls.scala) for more details and supported options.
 
-**Example 4: Get the full paths to all hidden files in the home directory for which the user has write permissions**
+**Example 4:** *Get the full paths to all hidden files in the home directory for which the user has write permissions*
 
 ```scala
 
@@ -149,12 +184,10 @@ Ls()
   .showFilesOnly
   .build
   .execute
-  .map(
-    _.filter(
-      _.permissions
-        .user
-        .contains(PermissionFlag.Write)
-    )
+  .map(_
+    .filter(_.name.startsWith("."))
+    .filter(_.permissions.user.contains(PermissionFlag.Write))
+    .map(_.path)
   )
   .getOrElse(List.empty)
 
@@ -166,7 +199,7 @@ This command can be used to display (and concatenate) the contents of a single o
 
 See [Cat.scala](src/main/scala/com/mayankrastogi/cs474/hw3/commands/Cat.scala) for more details and supported options.
 
-**Example 5: Concatenate 3 log files from 3 different locations and append to the master log file**
+**Example 5:** *Concatenate 3 log files from 3 different locations and append to the master log file*
 
 ```scala
 
@@ -187,7 +220,7 @@ This command can be used to filter lines of text in a single or multiple files t
 
 See [Grep.scala](src/main/scala/com/mayankrastogi/cs474/hw3/commands/Grep.scala) for more details and supported options.
 
-**Example 6.1: Read 3 log files and search for any errors using `Grep()` in stand-alone mode**
+**Example 6.1:** *Read 3 log files and search for any errors using `Grep()` in stand-alone mode*
 
 ```scala
 
@@ -201,7 +234,7 @@ Grep()
 
 ```
 
-**Example 6.2: Read 3 log files and search for any errors using a combination of `Cat` and `Grep()` commands**
+**Example 6.2:** *Read 3 log files and search for any errors using a combination of `Cat` and `Grep()` commands*
 
 ```scala
 
@@ -223,7 +256,7 @@ This command can be used to sort lines of text in a single or multiple files. Th
 
 See [Sort.scala](src/main/scala/com/mayankrastogi/cs474/hw3/commands/Sort.scala) for more details and supported options.
 
-**Example 7.1: Read 3 log files and sort them using `Sort()` in stand-alone mode**
+**Example 7.1:** *Read 3 log files and sort them using `Sort()` in stand-alone mode*
 
 ```scala
 
@@ -236,7 +269,7 @@ Sort()
 
 ```
 
-**Example 7.2: Read 3 log files and sort them using a combination of `Cat` and `Sort()` commands**
+**Example 7.2:** *Read 3 log files and sort them using a combination of `Cat` and `Sort()` commands*
 
 ```scala
 
@@ -268,7 +301,7 @@ import com.mayankrastogi.cs474.hw3.framework.CommandResultParser.DefaultParsers.
 - Use `Command[String]("your_command").execute` for executing a command that writes to the standard output.
 - Use `Command[PipeReceiver]("your_command")` for a command that accepts input from a pipe.
 
-**Example 1: Print the current working directory**
+**Example 1:** *Print the current working directory*
 
 ```scala
 
@@ -276,7 +309,7 @@ Command[String]("pwd").execute.map(println)
 
 ```
 
-**Example 2: Print details of a running process**
+**Example 2:** Print details of a running process*
 
 ```scala
 
@@ -344,6 +377,8 @@ To make it easier for users and developers of the framework to work with the mos
 - **`pipeReceiverParser`:** Parses string output to a dummy pipe receiver that does nothing.
 
 ### Test Case Execution Report
+
+These tests were run on **Windows 10** running **Ubuntu 18.04.1 LTS** under **Windows Subsystem for Linux**.
 
 ```
 
@@ -465,3 +500,9 @@ To make it easier for users and developers of the framework to work with the mos
 [success] Total time: 9 s, completed Nov 29, 2019, 6:49:30 PM
 
 ```
+
+### Known Issues
+
+- Passing an empty list of files to `addAllFiles()` method of `Cat()`, `Grep()` and `Sort()` commands makes them wait for standard input during execution and the framework hangs.
+- `Ls()` command fails on `Mac OSX`. **Possible Fix:** *Update [line #128 in Ls.scala](src/main/scala/com/mayankrastogi/cs474/hw3/commands/ls/Ls.scala#lines-128) to `Seq("ls", "-ld", "--time-style=long-iso") ++`. (Not tested on Mac)* 
+- `MkDir` command fails on `Mac OSX` in certain scenarios.
