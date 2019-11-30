@@ -2,6 +2,11 @@ package com.mayankrastogi.cs474.hw3.utils
 
 import java.util.Comparator
 
+/**
+ * Extends the [[String]] class with helper methods useful for testing the framework.
+ *
+ * @param string The input string.
+ */
 class StringExtensions(string: String) {
 
   def occurrencesOf(substring: String): Int =

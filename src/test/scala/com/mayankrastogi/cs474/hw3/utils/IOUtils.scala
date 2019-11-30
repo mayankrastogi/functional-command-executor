@@ -5,9 +5,10 @@ import java.util.Comparator
 
 import scala.util.Try
 
+/**
+ * Provides utility methods for manipulating files and directories using the Java NIO API.
+ */
 object IOUtils {
-
-  case class TestFile(name: String, content: String)
 
   def createDirectory(dirName: String): Try[Path] = Try {
     Files.createDirectory(Paths.get(dirName))
@@ -27,4 +28,6 @@ object IOUtils {
   }
 
   def exists(filePath: String): Boolean = Try(Files.exists(Paths.get(filePath))).getOrElse(false)
+
+  case class TestFile(name: String, content: String)
 }
