@@ -78,15 +78,15 @@ Command[String]("whoami")
 
 The following commands are currently supported:
 
- # | Command | Description                                                     | Type                                  
----|---------|-----------------------------------------------------------------|----------------------------------------
- 1 | `Echo`  | Prints the specified text to standard output.                   | `Command[String]`                        
- 2 | `MkDir` | Creates a directory.                                            | `Command[Unit]`
- 3 | `Cd`    | Switches the working directory.                                 | `Command[Unit]`
- 4 | `Ls`    | Lists files and directories inside the specified directory.     | `Command[LsResult]`
- 5 | `Cat`   | Concatenates specified files.                                   | `Command[String]`
- 6 | `Grep`  | Finds lines matching the specified patterns in the given files. | `Command[String]` / `Command[PipeReceiver]`
- 7 | `Sort`  | Sorts lines in the specified files.                             | `Command[String]` / `Command[PipeReceiver]`
+| # | Command | Description                                                     | Type                                       |
+|---|---------|-----------------------------------------------------------------|--------------------------------------------|
+| 1 | `Echo`  | Prints the specified text to standard output.                   | `Command[String]`                          |
+| 2 | `MkDir` | Creates a directory.                                            | `Command[Unit]`                            |
+| 3 | `Cd`    | Switches the working directory.                                 | `Command[Unit]`                            |
+| 4 | `Ls`    | Lists files and directories inside the specified directory.     | `Command[LsResult]`                        |
+| 5 | `Cat`   | Concatenates specified files.                                   | `Command[String]`                          |
+| 6 | `Grep`  | Finds lines matching the specified patterns in the given files. | `Command[String]` / `Command[PipeReceiver]`|
+| 7 | `Sort`  | Sorts lines in the specified files.                             | `Command[String]` / `Command[PipeReceiver]`|
 
 ### Running Built-In Commands
 
