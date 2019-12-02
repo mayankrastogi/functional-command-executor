@@ -309,7 +309,7 @@ Command[String]("pwd").execute.map(println)
 
 ```
 
-**Example 2:** Print details of a running process*
+**Example 2:** *Print details of a running process*
 
 ```scala
 
@@ -504,5 +504,5 @@ These tests were run on **Windows 10** running **Ubuntu 18.04.1 LTS** under **Wi
 ### Known Issues
 
 - Passing an empty list of files to `addAllFiles()` method of `Cat()`, `Grep()` and `Sort()` commands makes them wait for standard input during execution and the framework hangs.
-- `Ls()` command fails on `Mac OSX`. **Possible Fix:** *Update [line #128 in Ls.scala](src/main/scala/com/mayankrastogi/cs474/hw3/commands/ls/Ls.scala#lines-128) to `Seq("ls", "-ld", "--time-style=long-iso") ++`. (Not tested on Mac)* 
+- `Ls()` might fail on `Mac OSX`. A possible fix has been pushed but remains untested.
 - `MkDir` command fails on `Mac OSX` in certain scenarios.
