@@ -1,0 +1,5 @@
+Hi Mayank:
+I have experienced an intellectual pleasure from reading your implementation - one can understand how someone's mind work by reading her/his code. Your implementation goes even beyond what I expected to see from students at this level. I like how you introduced the combinator andThen and used it in combination with pipeTo. I am looking forward to working with you. You got the full grade, 11%.
+
+Thank you,
+Mark and Aditya
