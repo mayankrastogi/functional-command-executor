@@ -125,7 +125,7 @@ object Ls {
     def build(implicit ev: I <:< MandatoryParameters): Command[LsResult] = {
       val cmd =
       // List directory contents without quotes, in long-listing mode, and last modified time in long-iso format
-        Seq("ls", "-ldN", "--time-style=long-iso") ++
+        Seq("ls", "-ld", "--time-style=long-iso") ++
           // Show/Hide hidden files
           Seq(contentAttributes match {
             case ContentAttributes.AllMinusHidden => path + "/*"
